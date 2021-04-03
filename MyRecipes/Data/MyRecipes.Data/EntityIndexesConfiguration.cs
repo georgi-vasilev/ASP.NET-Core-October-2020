@@ -2,9 +2,9 @@
 {
     using System.Linq;
 
-    using MyRecipes.Data.Common.Models;
-
     using Microsoft.EntityFrameworkCore;
+
+    using MyRecipes.Data.Common.Models;
 
     internal static class EntityIndexesConfiguration
     {
