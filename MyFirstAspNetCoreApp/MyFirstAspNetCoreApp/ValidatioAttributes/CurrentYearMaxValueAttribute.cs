@@ -1,0 +1,29 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace MyFirstAspNetCoreApp.ValidatioAttributes
+{
+    public class CurrentYearMaxValueAttribute : ValidationAttribute
+    {
+        public CurrentYearMaxValueAttribute(int minYear)
+        {
+            MinYear = minYear;
+            this.ErrorMessage = $"Value should be between: {MinYear} and {DateTime.UtcNow.Year}.";
+        }
+
+        public int MinYear { get; }
+
+        public override bool IsValid(object value)
+        {
+            if (value is int intValue)
+            {
+                if (intValue <= DateTime.UtcNow.Year && intValue >= MinYear)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+}

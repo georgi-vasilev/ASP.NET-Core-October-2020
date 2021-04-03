@@ -1,0 +1,16 @@
+﻿@model MyFirstAspNetCoreApp.ViewModels.Home.IndexViewModel
+@inject IInstanceCounter InstanceCounter 
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1 class="accordion">Instances: @InstanceCounter.Instances</h1>
+<div class="text-center">
+    <h1 class="display-4">Welcome @Model.Name</h1>
+    <h2>Its @Model.Year year</h2>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>We have @Model.UsersCount users</p>
+    <p>@Model.ProcessorCount processors.</p>
+    <p>Time: @DateTime.Now</p>
+    <p>Id: @Model.Id</p>
+</div>
