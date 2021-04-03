@@ -2,31 +2,38 @@
 {
     using System.Diagnostics;
     using System.Linq;
-
+    using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
-    using MyRecipes.Data;
+
+    using MyRecipes.Data.Common.Repositories;
+    using MyRecipes.Data.Models;
+    using MyRecipes.Services.Data;
     using MyRecipes.Web.ViewModels;
     using MyRecipes.Web.ViewModels.Home;
 
+    // 1.ApplicationDbContext
+    // 2.Repositories
+    // 3. Services
     public class HomeController : BaseController
     {
-        private readonly ApplicationDbContext db;
+        private readonly IGetCountsService service;
 
-        public HomeController(ApplicationDbContext db)
+        public HomeController(IGetCountsService service)
         {
-            this.db = db;
+            this.service = service;
         }
 
         public IActionResult Index()
         {
-            var viewModel = new IndexViewModel()
+            var countsDto = this.service.GetCounts();
+            //var viewModel = this.mapper.Map<IndexViewModel>(countsDto);
+            var viewModel = new IndexViewModel
             {
-                CategoriesCount = this.db.Categories.Count(),
-                ImagesCount = this.db.Images.Count(),
-                IngredientsCount = this.db.Ingredients.Count(),
-                RecipesCount = this.db.Recipes.Count(),
+                CategoriesCount = countsDto.CategoriesCount,
+                ImagesCount = countsDto.ImagesCount,
+                RecipesCount = countsDto.RecipesCount,
+                IngredientsCount = countsDto.IngredientsCount,
             };
-
             return this.View(viewModel);
         }
 
