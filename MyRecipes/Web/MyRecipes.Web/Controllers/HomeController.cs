@@ -2,6 +2,7 @@
 {
     using System.Diagnostics;
     using System.Linq;
+
     using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +27,9 @@
         public IActionResult Index()
         {
             var countsDto = this.service.GetCounts();
-            //var viewModel = this.mapper.Map<IndexViewModel>(countsDto);
+
+            ////var viewModel = this.mapper.Map<IndexViewModel>(countsDto);
+
             var viewModel = new IndexViewModel
             {
                 CategoriesCount = countsDto.CategoriesCount,

@@ -15,9 +15,9 @@ namespace MyFirstAspNetCoreApp.ValidatioAttributes
 
         public override bool IsValid(object value)
         {
-            if (value is int intValue)
+            if (value is DateTime dtValue)
             {
-                if (intValue <= DateTime.UtcNow.Year && intValue >= MinYear)
+                if (dtValue.Year <= DateTime.UtcNow.Year && dtValue.Year >= MinYear)
                 {
                     return true;
                 }

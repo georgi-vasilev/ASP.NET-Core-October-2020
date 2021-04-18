@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MyFirstAspNetCoreApp.Models;
 
 namespace MyFirstAspNetCoreApp.Data
 {
@@ -12,5 +10,7 @@ namespace MyFirstAspNetCoreApp.Data
             : base(options)
         {
         }
+
+        public DbSet<Product> Products { get; set; }
     }
 }

@@ -18,6 +18,7 @@
         public string Extension { get; set; }
 
         //// the contents of the image is in the fily system
+        public string RemoteImageUrl { get; set; }
 
         public string AddedByUserId { get; set; }
 
