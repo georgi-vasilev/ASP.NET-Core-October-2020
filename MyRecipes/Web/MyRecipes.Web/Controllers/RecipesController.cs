@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using MyRecipes.Data.Models;
@@ -19,12 +20,14 @@
         private readonly ICategoriesService categoriesService;
         private readonly IRecipesService recipeService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IWebHostEnvironment environment;
 
-        public RecipesController(ICategoriesService categoriesService, IRecipesService recipeService, UserManager<ApplicationUser> userManager)
+        public RecipesController(ICategoriesService categoriesService, IRecipesService recipeService, UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
         {
             this.categoriesService = categoriesService;
             this.recipeService = recipeService;
             this.userManager = userManager;
+            this.environment = environment;
         }
 
         [Authorize]
@@ -47,7 +50,16 @@
 
             ////var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var user = await this.userManager.GetUserAsync(this.User);
-            await this.recipeService.CreateAsync(input, user.Id);
+
+            try
+            {
+                await this.recipeService.CreateAsync(input, user.Id, $"{this.environment.WebRootPath}/images");
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);                input.CategoriesItems = this.categoriesService.GetAllAsKeyValuePairs();
+                return this.View(input);
+            }
 
             // TODO: Redirect to recipe info page.
             return this.Redirect("/");
@@ -59,6 +71,7 @@
             {
                 return this.NotFound();
             }
+
             const int ItemsPerPage = 12;
             var viewModel = new RecipesListViewModel()
             {
@@ -68,6 +81,12 @@
                 Recipes = this.recipeService.GetAll<RecipeInListViewModel>(id, ItemsPerPage),
             };
             return this.View(viewModel);
+        }
+
+        public IActionResult ById(int id)
+        {
+            var recipe = this.recipeService.GetById<SingleRecipeViewModel>(id);
+            return this.View(recipe);
         }
     }
 }

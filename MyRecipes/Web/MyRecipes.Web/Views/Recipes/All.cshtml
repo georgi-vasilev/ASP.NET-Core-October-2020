@@ -1,6 +1,6 @@
 ﻿@model RecipesListViewModel
 @{
-    this.ViewData["Title"] = "All Recipes, page" + Model.PageNumber;
+    this.ViewData["Title"] = "All Recipes, page " + Model.PageNumber;
 }
 
 <h1>@this.ViewData["Title"]</h1>
@@ -9,9 +9,9 @@
     @foreach (var recipe in this.Model.Recipes)
     {
         <div class="media col-md-4">
-            <img class="mr-3" src=@recipe.ImageUrl alt="Generic placeholder image" width="100px">
+            <img class="mr-3" src=@recipe.ImageUrl alt="Generic placeholder image" width="100">
             <div class="media-body">
-                <h5 class="mt-0">@recipe.Name</h5>
+                <h5 class="mt-0"><a asp-controller= "Recipes" asp-action="ById" asp-route-id="@recipe.Id">@recipe.Name</a></h5>
                 @recipe.CategoryName
             </div>
         </div>
