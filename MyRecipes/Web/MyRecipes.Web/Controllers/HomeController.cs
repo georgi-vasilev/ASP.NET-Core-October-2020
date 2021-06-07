@@ -18,10 +18,14 @@
     public class HomeController : BaseController
     {
         private readonly IGetCountsService service;
+        private readonly IRecipesService recipesService;
 
-        public HomeController(IGetCountsService service)
+        public HomeController(
+            IGetCountsService service,
+            IRecipesService recipesService)
         {
             this.service = service;
+            this.recipesService = recipesService;
         }
 
         public IActionResult Index()
@@ -36,6 +40,7 @@
                 ImagesCount = countsDto.ImagesCount,
                 RecipesCount = countsDto.RecipesCount,
                 IngredientsCount = countsDto.IngredientsCount,
+                RandomRecipes = this.recipesService.GetRandom<IndexPageRecipeViewModel>(10),
             };
             return this.View(viewModel);
         }

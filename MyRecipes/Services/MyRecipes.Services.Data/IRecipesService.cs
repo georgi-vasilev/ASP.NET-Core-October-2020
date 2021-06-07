@@ -11,8 +11,16 @@
 
         IEnumerable<T> GetAll<T>(int page, int itemsPerPage = 12);
 
+        IEnumerable<T> GetRandom<T>(int count);
+
         int GetCount();
 
         T GetById<T>(int id);
+
+        Task UpdateAsync(int id, EditRecipeInputModel model);
+
+        Task DeleteAsync(int id);
+
+        IEnumerable<T> GetByIngredients<T>(IEnumerable<int> ingredientIds);
     }
 }
